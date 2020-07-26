@@ -40,10 +40,11 @@ for bucket_name in bucket_names:
     bucket_lc_rules = bucket_config['Rules']
     multipart_rules = list(filter(lambda x: 'AbortIncompleteMultipartUpload' in x, bucket_lc_rules))
 
-    # check whether rule is already applied
+    # check whether rule is already applied to update and enable
     if len(multipart_rules) > 0:
         print('\tAlready has lifecycle rule - updating')
         for rule in multipart_rules:
+            rule['Status'] = 'Enabled'
             rule['AbortIncompleteMultipartUpload']['DaysAfterInitiation'] = DAYS_AFTER_INITIATION
     else:
         print('\tDoes not have lifecycle rule - appending')
